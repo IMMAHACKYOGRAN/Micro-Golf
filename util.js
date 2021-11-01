@@ -1,9 +1,11 @@
 class Util {
     Constructor() {}
 
-    getDist(x, y) {
-        var dist = Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2))
-        return dist;
+    getDist(x1, y1, x2, y2) {
+        let xDist = x2 - x1;
+        let yDist = y2 - y1;
+    
+        return Math.sqrt(Math.pow(xDist, 2) + Math.pow(yDist, 2));
     }
 
     loadImage (url) {

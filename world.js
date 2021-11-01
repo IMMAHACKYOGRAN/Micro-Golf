@@ -2,9 +2,9 @@ class World {
     constructor() {
         this.friction = 0.000005;
         this.DeltaTime;
-
-        //maps
-        this.map = new Array(0);
+        this.currentWorld = 1;
+        this.map = [];
+        this.worldspawn = util.Vec2(0, 0);
     }
 
     renderMap() {
@@ -23,16 +23,36 @@ class World {
         }
     }
 
-    getMapOneOne() {
-        // Clear map
-        this.map = new Array(0);
+    getWorld(world) {
+        switch (world) {
+            case 1: 
+                // Clear map
+                this.map = [];
 
-        // Spawn ball
-        let startpos = util.Vec2(0, 0);
-        ball.init(startpos);
+                // Spawn ball
+                ball.renderedSize = 32;
+                this.worldspawn = util.Vec2(0, 0);
+                ball.init(this.worldspawn);
 
-        // Add objs to map
-        this.map.push(new Hole(1, 1, 3));
+                // Add objs to map
+                this.map.push(new Hole(1, 1, 3));
+
+                break;
+            
+            case 2: 
+                // Clear map
+                this.map = [];
+
+                // Spawn ball
+                ball.renderedSize = 32;
+                this.worldspawn = util.Vec2(5 * 32, 5 * 32);
+                ball.init(this.worldspawn);
+
+                // Add objs to map
+                this.map.push(new Hole(4, 3, 3));
+
+                break;
+        }
     }
 }
 
@@ -55,8 +75,7 @@ class Object {
 class Hole extends Object {
     constructor(x, y, imgValue) {
         super(x, y, imgValue);
-        // this.nextMap = nextMap;
-        this.size = 32;
+        this.size = 28;
     }
 
     update() {
@@ -64,9 +83,27 @@ class Hole extends Object {
         this.checkForWin();
     }
 
+    moveBallToHole() {
+        if (ball.renderedSize != 0) {
+            ball.renderedSize -= 0.5;
+        } else {
+            world.currentWorld += 1
+            world.getWorld(world.currentWorld);
+            ball.win = false;
+        }
+    }
+
     checkForWin () {
-        if() {
-                console.log("in");
-            }
+        if(util.getDist(this.x * 32, this.y * 32, ball.pos.x, ball.pos.y) < 28) {
+            ball.win = true;
+            this.moveBallToHole();
+        }
+    }
+}
+
+class Block1x1 extends Object {
+    constructor(x, y, imgValue) {
+        super(x, y, imgValue);
+        this.size = 32;
     }
 }

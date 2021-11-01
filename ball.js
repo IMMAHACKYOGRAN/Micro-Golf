@@ -5,8 +5,10 @@ class Ball {
         this.lastPos = util.Vec2(0, 0);
         this.onedvel = 0;
         this.onedlaucnedvel = 0;
+        this.renderedSize = 32;
         this.img = img;
         this.mbd = false;
+        this.win = false;
     }
 
     move() {
@@ -14,11 +16,16 @@ class Ball {
         this.vel.y = (this.onedvel / this.onedlaucnedvel) * this.vel.y;
 
         if (!this.vel.x) {
-            this.vel.x = 0
+            this.vel.x = 0;
         }
 
         if (!this.vel.y) {
-            this.vel.y = 0
+            this.vel.y = 0;
+        }
+
+        if (this.win) {
+            this.vel.x = 0;
+            this.vel.y = 0;
         }
 
         this.pos.x += this.vel.x * world.DeltaTime;
@@ -53,7 +60,7 @@ class Ball {
     }
 
     draw() {
-        ctx.drawImage(tileSheet, 2 * tileSize, 0, tileSize, tileSize, this.pos.x, this.pos.y, 32, 32);
+        ctx.drawImage(tileSheet, 2 * tileSize, 0, tileSize, tileSize, this.pos.x, this.pos.y, this.renderedSize, this.renderedSize);
     }
     
     init(pos) {

@@ -40,5 +40,9 @@ function update(time = 0) {
     requestAnimationFrame(update);
 }
 
-world.getMapOneOne();
+function init() {
+    world.getWorld(world.currentWorld);  
+}
+
+init();
 update();
