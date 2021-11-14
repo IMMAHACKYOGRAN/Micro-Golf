@@ -1,12 +1,11 @@
 class Ball {
-    constructor(x, y, velx, vely, img) {
+    constructor(x, y, velx, vely) {
         this.pos = util.Vec2(x, y);
         this.vel = util.Vec2(velx, vely);
         this.lastPos = util.Vec2(0, 0);
         this.onedvel = 0;
         this.onedlaucnedvel = 0;
         this.renderedSize = 32;
-        this.img = img;
         this.mbd = false;
         this.win = false;
     }
@@ -64,32 +63,33 @@ class Ball {
     }
     
     init(pos) {
+        this.renderedSize = 32;
         this.pos.x = pos.x;
         this.pos.y = pos.y;
         this.vel.x = 0;
         this.vel.y = 0;
     }
 
-    colisionRes() {
-        if (this.pos.x < 0 || this.pos.x + 28 > width) {
-            while (this.pos.x < 0) {
-                this.pos.x += -this.vel.x
+    collisionRes(x, y, sizeX, sizeY) {
+        if (this.pos.x < x || this.pos.x + 28 > x + sizeX) {
+            if (this.pos.x < x) {
+                this.pos.x += -this.vel.x;
             }
 
-            while (this.pos.x + 28 > width) {
-                this.pos.x += -this.vel.x
+            if (this.pos.x + 28 > x + sizeX) {
+                this.pos.x += -this.vel.x;
             }
 
             this.vel.x = -this.vel.x;
         }
     
-        if (this.pos.y < 0 || this.pos.y + 28 > height) {
-            while (this.pos.y < 0) {
-                this.pos.y += -this.vel.y
+        if (this.pos.y < y || this.pos.y + 28 > y + sizeY) {
+            if (this.pos.y < y) {
+                this.pos.y += -this.vel.y;
             }
 
-            while (this.pos.y + 28 > height) {
-                this.pos.y += -this.vel.y
+            if (this.pos.y + 28 > y + sizeY) {
+                this.pos.y += -this.vel.y;
             }
 
             this.vel.y = -this.vel.y;

@@ -9,7 +9,7 @@ class World {
 
     renderMap() {
         for (let i = 0; i < this.map.length; i++) {
-            this.map[i].update(ball.pos);
+            this.map[i].update();
         }
     }
 
@@ -30,12 +30,12 @@ class World {
                 this.map = [];
 
                 // Spawn ball
-                ball.renderedSize = 32;
-                this.worldspawn = util.Vec2(0, 0);
-                ball.init(this.worldspawn);
+                this.worldspawn = util.Vec2(4.5 * 32, 12.5 * 32);
+                ball.init(this.worldspawn); 
 
                 // Add objs to map
-                this.map.push(new Hole(1, 1, 3));
+                this.map.push(new Hole(4.5, 1.5, 3));
+                this.map.push(new Block1x1(4.5, 7, 4));
 
                 break;
             
@@ -44,20 +44,29 @@ class World {
                 this.map = [];
 
                 // Spawn ball
-                ball.renderedSize = 32;
-                this.worldspawn = util.Vec2(5 * 32, 5 * 32);
+                this.worldspawn = util.Vec2(4.5 * 32, 12.5 * 32);
                 ball.init(this.worldspawn);
 
                 // Add objs to map
-                this.map.push(new Hole(4, 3, 3));
+                this.map.push(new Hole(4.5, 1.5, 3));
 
                 break;
         }
     }
 }
 
+class DynamicObject {
+    constructor (x, y, xLen, yLen, tiles) {
+        this.x = x;
+        this.y = y;
+        this.xLen = xLen;
+        this.yLen = yLen;
+        this.tiles = tiles;
+    }
+}
+
 class Object {
-    constructor(x, y, imgValue) {
+    constructor (x, y, imgValue) {
         this.x = x;
         this.y = y;
         this.imgValue = imgValue;
@@ -67,9 +76,7 @@ class Object {
         ctx.drawImage(tileSheet, this.imgValue * tileSize, 0, tileSize, tileSize, this.x * 32, this.y * 32, 32, 32);
     }
 
-    update() {
-
-    }
+    update(){}
 }
 
 class Hole extends Object {
@@ -84,8 +91,8 @@ class Hole extends Object {
     }
 
     moveBallToHole() {
-        if (ball.renderedSize != 0) {
-            ball.renderedSize -= 0.5;
+        if (ball.renderedSize >= 0) {
+            ball.renderedSize -= 0.05 * world.DeltaTime;
         } else {
             world.currentWorld += 1
             world.getWorld(world.currentWorld);
@@ -105,5 +112,15 @@ class Block1x1 extends Object {
     constructor(x, y, imgValue) {
         super(x, y, imgValue);
         this.size = 32;
+    }
+
+    update() {
+        super.draw();
+        this.drawShadow();
+        //ball.collisionRes(0, 0, width, height);
+    }
+
+    drawShadow() {
+        ctx.drawImage(tileSheet, (this.imgValue + 1) * tileSize, 0, tileSize, tileSize, this.x * 32, (this.y + 1) * 32, 32, 32);
     }
 }
