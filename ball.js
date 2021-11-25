@@ -4,6 +4,7 @@ class Ball {
         this.vel = util.Vec2(velx, vely);
         this.lastPos = util.Vec2(0, 0);
         this.onedvel = 0;
+        this.size = 28;
         this.onedlaucnedvel = 0;
         this.renderedSize = 32;
         this.mbd = false;
@@ -73,11 +74,11 @@ class Ball {
     collisionRes(x, y, sizeX, sizeY) {
         if (this.pos.x < x || this.pos.x + 28 > x + sizeX) {
             if (this.pos.x < x) {
-                this.pos.x += -this.vel.x;
+                this.pos.x += -this.vel.x * world.DeltaTime;
             }
 
             if (this.pos.x + 28 > x + sizeX) {
-                this.pos.x += -this.vel.x;
+                this.pos.x += -this.vel.x * world.DeltaTime;
             }
 
             this.vel.x = -this.vel.x;
@@ -85,11 +86,11 @@ class Ball {
     
         if (this.pos.y < y || this.pos.y + 28 > y + sizeY) {
             if (this.pos.y < y) {
-                this.pos.y += -this.vel.y;
+                this.pos.y += -this.vel.y * world.DeltaTime;
             }
 
             if (this.pos.y + 28 > y + sizeY) {
-                this.pos.y += -this.vel.y;
+                this.pos.y += -this.vel.y * world.DeltaTime;
             }
 
             this.vel.y = -this.vel.y;
