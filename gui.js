@@ -10,4 +10,31 @@ class GuiButton {
         this.draw();
     }
 
+    draw() {
+
+    }
+}
+
+class StartMenu {
+    constructor() {}
+
+    renderBG() {
+        for (let i = 0; i < width / 32; i ++) {
+            for (let j = 0; j < height / 32; j ++) {
+                var isLightSquare = (i + j) % 2 != 0;
+                var v = (isLightSquare) ? 1 : 0;                
+                ctx.drawImage(tileSheet, v * tileSize, 0, tileSize, tileSize, i * 32, j * 32, 32, 32);
+            }
+        }
+    }
+
+    update() {
+        this.renderBG();
+    }
+}
+
+class Gui {
+    constructor() {
+        this.startMenu = new StartMenu();
+    }
 }

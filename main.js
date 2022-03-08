@@ -8,6 +8,7 @@ const width = canvas.width, height = canvas.height;
 const util = new Util(); 
 const ball = new Ball(10, 10, 0, 0);
 const world = new World();
+const gui = new Gui();
 const tileSheet = new Image();
 const tileSize = 80;
 tileSheet.src = './img/Tiles.png';
@@ -15,6 +16,7 @@ tileSheet.src = './img/Tiles.png';
 
 let currentMousePos = util.Vec2(0, 0);
 let startMousePos = util.Vec2(0, 0);
+let gameIsRunning = true;
 
 function drawBG() {
     ctx.fillRect(0, 0, width, height);
@@ -29,19 +31,24 @@ function render() {
 
 let lastTime = 0;
 function gameLoop(time = 0) {
-    world.DeltaTime = time - lastTime;
-    lastTime = time;
+    if (gameIsRunning) {
+        world.DeltaTime = time - lastTime;
+        lastTime = time;
 
-    ball.input();
-    ball.move();
-    ball.collisionRes(0, 0, width, height);
-    
-    render();
+        ball.input();
+        ball.move();
+        ball.collisionRes(0, 0, width, height);
+        
+        render();
+    }
 
-    requestAnimationFrame(update);
+    requestAnimationFrame(gameLoop);
 }
 
 function init() {
     world.getWorld(world.currentWorld);  
 }
 
+//init();
+gameLoop();
+gui.StartMenu.startScreen();
