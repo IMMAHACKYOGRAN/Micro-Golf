@@ -9,30 +9,44 @@ class Ball {
         this.renderedSize = 32;
         this.mbd = false;
         this.win = false;
+        this.maxSpeed = 0.3;
     }
 
     move() {
         this.vel.x = (this.onedvel / this.onedlaucnedvel) * this.vel.x;
         this.vel.y = (this.onedvel / this.onedlaucnedvel) * this.vel.y;
 
-        if (!this.vel.x) {
+        if (!this.vel.x)
             this.vel.x = 0;
-        }
 
-        if (!this.vel.y) {
+        if (!this.vel.y)
             this.vel.y = 0;
-        }
 
         if (this.win) {
             this.vel.x = 0;
             this.vel.y = 0;
         }
+        
+        this.limitSpeed(this.vel);
 
         this.pos.x += this.vel.x * world.DeltaTime;
         this.pos.y += this.vel.y * world.DeltaTime;
 
         if (this.onedvel >= 0) {
             this.onedvel -= world.friction * world.DeltaTime;
+       }
+    //    console.log(this.vel);
+    }
+
+    limitSpeed(vel) {
+        if(vel.x > 1) {
+            vel.x = 0.5;
+        } if(vel.y > 1) {
+            vel.y = 0.5;
+        } if(vel.x < -1) {
+            vel.x = -0.5;
+        } if(vel.y < -1) {
+            vel.y = -0.5;
         }
     }
 
@@ -51,8 +65,9 @@ class Ball {
         });
 
         document.addEventListener("mouseup", () => {
-            this.onedvel = Math.sqrt(Math.pow(this.vel.x, 2) + Math.pow(this.vel.y, 2))
+            this.onedvel = Math.sqrt(Math.pow(this.vel.x, 2) + Math.pow(this.vel.y, 2));
             this.onedlaucnedvel = this.onedvel;
+
             this.vel.x = -(currentMousePos.x - startMousePos.x) * 0.005;
             this.vel.y = -(currentMousePos.y - startMousePos.y) * 0.005;
             this.mbd = false;

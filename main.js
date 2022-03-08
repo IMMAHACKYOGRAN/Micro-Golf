@@ -28,7 +28,7 @@ function render() {
 }
 
 let lastTime = 0;
-function update(time = 0) {
+function gameLoop(time = 0) {
     world.DeltaTime = time - lastTime;
     lastTime = time;
 
@@ -45,5 +45,3 @@ function init() {
     world.getWorld(world.currentWorld);  
 }
 
-init();
-update();

@@ -1,6 +1,6 @@
 class World {
     constructor() {
-        this.friction = 0.000005;
+        this.friction = 0.00005 ;
         this.DeltaTime;
         this.currentWorld = 1;
         this.map = [];
@@ -34,7 +34,7 @@ class World {
                 ball.init(this.worldspawn); 
 
                 // Add objs to map
-                //this.map.push(new Hole(4.5, 1.5, 3));
+                this.map.push(new Hole(4.5, 1.5, 3));
                 this.map.push(new Block1x1(4.5, 7, 4));
 
                 break;
@@ -49,19 +49,37 @@ class World {
 
                 // Add objs to map
                 this.map.push(new Hole(4.5, 1.5, 3));
+                this.map.push(new Block1x1(4, 6, 10));
+                this.map.push(new Block1x1(5, 6, 6));
+                this.map.push(new Block1x1(6, 6, 6));
+                this.map.push(new Block1x1(7, 6, 6));
+                this.map.push(new Block1x1(8, 6, 6));
+                this.map.push(new Block1x1(9, 6, 8));
+
+                
+                this.map.push(new Block1x1(0, 9, 10));
+                this.map.push(new Block1x1(1, 9, 6));
+                this.map.push(new Block1x1(2, 9, 6));
+                this.map.push(new Block1x1(3, 9, 6));
+                this.map.push(new Block1x1(4, 9, 6));
+                this.map.push(new Block1x1(5, 9, 8));
+
+                break;
+
+            case 3: 
+                // Clear map
+                this.map = [];
+
+                // Spawn ball
+                this.worldspawn = util.Vec2(4.5 * 32, 12.5 * 32);
+                ball.init(this.worldspawn); 
+
+                // Add objs to map
+                this.map.push(new Hole(4.5, 1.5, 3));
+                this.map.push(new Block1x1(4.5, 7, 4));
 
                 break;
         }
-    }
-}
-
-class DynamicObject {
-    constructor (x, y, xLen, yLen, tiles) {
-        this.x = x;
-        this.y = y;
-        this.xLen = xLen;
-        this.yLen = yLen;
-        this.tiles = tiles;
     }
 }
 
@@ -130,7 +148,7 @@ class Block1x1 extends Object {
     }
 
     collision() {
-        this.fx = ball.pos.x + ball.vel.x;
+        this.fx = ball.pos.x + ball.vel.x * world.DeltaTime;
         this.fy = ball.pos.y;
         if(this.fx <= (this.x * this.size) + this.size && this.fx + ball.size >= (this.x * this.size) && this.fy <= (this.y * this.size) + this.size && this.fy + ball.size >= (this.y * this.size)) {
             ball.pos.x += -ball.vel.x;
@@ -138,10 +156,21 @@ class Block1x1 extends Object {
         }
     
         this.fx = ball.pos.x;
-        this.fy = ball.pos.y + ball.vel.y;
+        this.fy = ball.pos.y + ball.vel.y * world.DeltaTime;
         if(this.fx <= (this.x * this.size) + this.size && this.fx + ball.size >= (this.x * this.size) && this.fy <= (this.y * this.size) + this.size && this.fy + ball.size >= (this.y * this.size)) {
             ball.pos.y += -ball.vel.y;
             ball.vel.y = -ball.vel.y;
         }
+    }
+}
+
+class DynamicBox {
+    constructor(x1, y1, x2, y2) {
+        this.x1 = x1;
+        this.y1 = y1;
+        this.x2 = x2;
+        this.y2 = y2;
+        this.len = this.x2 - this.x1;
+        this.height = this.y2 - this.y1; 
     }
 }
