@@ -18,7 +18,7 @@ class GuiButton {
 class StartMenu {
     constructor() {}
 
-    renderBG() {
+    render() {
         for (let i = 0; i < width / 32; i ++) {
             for (let j = 0; j < height / 32; j ++) {
                 var isLightSquare = (i + j) % 2 != 0;
@@ -28,8 +28,8 @@ class StartMenu {
         }
     }
 
-    update() {
-        this.renderBG();
+    startScreen() {
+        this.render();
     }
 }
 
@@ -37,4 +37,5 @@ class Gui {
     constructor() {
         this.startMenu = new StartMenu();
     }
+
 }

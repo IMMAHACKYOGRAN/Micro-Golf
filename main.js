@@ -50,5 +50,5 @@ function init() {
 }
 
 //init();
-gameLoop();
-gui.StartMenu.startScreen();
+//gameLoop();
+gui.startMenu.startScreen();
