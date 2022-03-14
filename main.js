@@ -16,7 +16,7 @@ tileSheet.src = './img/Tiles.png';
 
 let currentMousePos = util.Vec2(0, 0);
 let startMousePos = util.Vec2(0, 0);
-let gameIsRunning = true;
+let gameIsRunning = false;
 
 function drawBG() {
     ctx.fillRect(0, 0, width, height);
@@ -42,6 +42,10 @@ function gameLoop(time = 0) {
         render();
     }
 
+    if (gui.startMenu.isOnStartScreen) {
+        gui.startMenu.startScreen();
+    }
+
     requestAnimationFrame(gameLoop);
 }
 
@@ -50,5 +54,5 @@ function init() {
 }
 
 //init();
-//gameLoop();
-gui.startMenu.startScreen();
+gui.startMenu.isOnStartScreen = true;
+gameLoop();

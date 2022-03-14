@@ -1,8 +1,8 @@
 class GuiButton {
-    constructor(redirectfunc, centerAlligned, sx, sy, px, py) {
-        redirectfunc();
-        this.ca = centerAlligned;
-        this.size = util.Vec2(sx, sy);
+    constructor(imgSx, imgSy, redirect, px, py, width) {
+        this.imgSx = imgSx;
+        this.width = width;
+        this.imgSy = imgSy;
         this.pos = util.Vec2(px, py);
     }
 
@@ -11,21 +11,29 @@ class GuiButton {
     }
 
     draw() {
-
+        ctx.drawImage(tileSheet, this.imgSx, this.imgSy, this.width, 96, this.px, this.py, this.width, 96);
     }
 }
 
 class StartMenu {
-    constructor() {}
+    constructor() {
+        this.isOnStartScreen = false;
+        this.startButton = new GuiButton(0, 175, null, 72, 249, 176);
+        //this.levelButton = new GuiButton();
+    }
 
     render() {
+        // --------------- Draw BG ---------------
         for (let i = 0; i < width / 32; i ++) {
             for (let j = 0; j < height / 32; j ++) {
                 var isLightSquare = (i + j) % 2 != 0;
-                var v = (isLightSquare) ? 1 : 0;                
+                var v = (isLightSquare) ? 1 : 0;
                 ctx.drawImage(tileSheet, v * tileSize, 0, tileSize, tileSize, i * 32, j * 32, 32, 32);
             }
         }
+
+        // --------------- Draw Buttons ---------------
+        this.startButton.draw();
     }
 
     startScreen() {
