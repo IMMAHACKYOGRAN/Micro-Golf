@@ -51,11 +51,6 @@ class Ball {
     }
 
     input() {
-        document.addEventListener("mousemove", e => {
-            currentMousePos.x = e.x;
-            currentMousePos.y = e.y;
-        })
-
         document.addEventListener("mousedown", () => {
             if (!this.mbd) {
                 startMousePos.x = currentMousePos.x;

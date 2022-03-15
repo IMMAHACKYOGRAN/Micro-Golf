@@ -1,25 +1,45 @@
 class GuiButton {
-    constructor(imgSx, imgSy, redirect, px, py, width) {
+    constructor(imgSx, imgSy, animSx, redirect, px, py, width) {
         this.imgSx = imgSx;
-        this.width = width;
         this.imgSy = imgSy;
+        this.animSx = animSx;
+        this.sxToDraw = this.imgSx;
+        this.width = width;
+        this.redirect = redirect;
         this.pos = util.Vec2(px, py);
     }
 
     update() {
+        this.interact();
         this.draw();
     }
 
     draw() {
-        ctx.drawImage(tileSheet, this.imgSx, this.imgSy, this.width, 96, this.px, this.py, this.width, 96);
+        ctx.drawImage(tileSheet, this.sxToDraw, this.imgSy, this.width, 96, this.pos.x, this.pos.y, this.width, 96);
+    }
+
+    interact() {
+        document.addEventListener("mousedown", () => {
+            if (currentMousePos.x > this.pos.x && currentMousePos.x < this.pos.x + this.width && currentMousePos.y < this.pos.y + 96 && currentMousePos.y > this.pos.y) {
+                this.sxToDraw = this.animSx;
+            } 
+        });
+
+        document.addEventListener("mouseup", () => {
+            if (currentMousePos.x > this.pos.x && currentMousePos.x < this.pos.x + this.width && currentMousePos.y < this.pos.y + 96 && currentMousePos.y > this.pos.y) {
+                this.sxToDraw = this.imgSx;
+                this.redirect()
+            }
+        });
     }
 }
 
 class StartMenu {
     constructor() {
         this.isOnStartScreen = false;
-        this.startButton = new GuiButton(0, 175, null, 72, 249, 176);
-        //this.levelButton = new GuiButton();
+        this.startButton = new GuiButton(0, 80, 176, function() {this.isOnStartScreen = false; gameIsRunning = true; world.getWorld(world.currentWorld); }, 72, 249, 176);
+        this.levelButton = new GuiButton(352, 80, 432, null, 72, 347, 80);
+        this.placeHolderButton = new GuiButton(352, 80, 432, null, 168, 347, 80);
     }
 
     render() {
@@ -33,7 +53,9 @@ class StartMenu {
         }
 
         // --------------- Draw Buttons ---------------
-        this.startButton.draw();
+        this.startButton.update();
+        this.levelButton.update();
+        this.placeHolderButton.update();
     }
 
     startScreen() {

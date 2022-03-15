@@ -13,7 +13,6 @@ const tileSheet = new Image();
 const tileSize = 80;
 tileSheet.src = './img/Tiles.png';
 
-
 let currentMousePos = util.Vec2(0, 0);
 let startMousePos = util.Vec2(0, 0);
 let gameIsRunning = false;
@@ -31,6 +30,7 @@ function render() {
 
 let lastTime = 0;
 function gameLoop(time = 0) {
+    mouse();
     if (gameIsRunning) {
         world.DeltaTime = time - lastTime;
         lastTime = time;
@@ -51,6 +51,13 @@ function gameLoop(time = 0) {
 
 function init() {
     world.getWorld(world.currentWorld);  
+}
+
+function mouse() {
+    document.addEventListener("mousemove", e => {
+        currentMousePos.x = e.x;
+        currentMousePos.y = e.y;
+    })
 }
 
 //init();
