@@ -5,6 +5,8 @@ canvas.width = 320;
 canvas.height = 512;
 const width = canvas.width, height = canvas.height;
 
+let gameIsRunning = false;
+
 const util = new Util(); 
 const ball = new Ball(10, 10, 0, 0);
 const world = new World();
@@ -15,7 +17,6 @@ tileSheet.src = './img/Tiles.png';
 
 let currentMousePos = util.Vec2(0, 0);
 let startMousePos = util.Vec2(0, 0);
-let gameIsRunning = false;
 
 function drawBG() {
     ctx.fillRect(0, 0, width, height);
@@ -44,6 +45,10 @@ function gameLoop(time = 0) {
 
     if (gui.startMenu.isOnStartScreen) {
         gui.startMenu.startScreen();
+    }
+
+    if (gui.levelMenu.isOnLevelScreen) {
+        gui.levelMenu.levelScreen();
     }
 
     requestAnimationFrame(gameLoop);
